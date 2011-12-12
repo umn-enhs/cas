@@ -65,6 +65,9 @@
 					+-->
 				<bean
 					class="org.jasig.cas.authentication.principal.HttpBasedServiceCredentialsToPrincipalResolver" />
+				<!-- Adding per: https://wiki.jasig.org/display/CASUM/Trusted -->
+				<bean
+					class="org.jasig.cas.adaptors.trusted.authentication.principal.PrincipalBearingCredentialsToPrincipalResolver" />
 			</list>
 		</property>
 
@@ -75,7 +78,10 @@
 			| until it finds one that both supports the Credentials presented and succeeds in authenticating.
 			+-->
 		<property name="authenticationHandlers">
-			<list>
+			<list> 
+				<!-- Adding per: https://wiki.jasig.org/display/CASUM/Trusted -->
+				<bean
+					class="org.jasig.cas.adaptors.trusted.authentication.handler.support.PrincipalBearingCredentialsAuthenticationHandler" />
 				<!--
 					| This is the authentication handler that authenticates services by means of callback via SSL, thereby validating
 					| a server side SSL certificate.

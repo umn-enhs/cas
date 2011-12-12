@@ -33,18 +33,18 @@
 		<if test="flowScope.warnCookieValue" then="showWarningView" else="redirect" />
 	</decision-state>
 	
-	<!-- 
-	<action-state id="startAuthenticate">
-		<action bean="x509Check" />
+	<!-- Added per: https://wiki.jasig.org/display/CASUM/Trusted -->
+	<action-state id="remoteAuthenticate">
+		<evaluate expression="principalFromRemoteAction" />
 		<transition on="success" to="sendTicketGrantingTicket" />
-		<transition on="warn" to="warn" />
-		<transition on="error" to="generateLoginTicket" />
+		<transition on="error" to="viewLoginForm" />
 	</action-state>
-	 -->
    
 	<action-state id="generateLoginTicket">
         <evaluate expression="generateLoginTicketAction.generate(flowRequestContext)" />
-		<transition on="success" to="viewLoginForm" />
+		<!-- Changed per: https://wiki.jasig.org/display/CASUM/Trusted -->
+		<!-- <transition on="success" to="viewLoginForm" /> -->
+		<transition on="success" to="remoteAuthenticate" />
 	</action-state>
     
 	<view-state id="viewLoginForm" view="casLoginView" model="credentials">
